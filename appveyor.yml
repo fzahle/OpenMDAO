@@ -1,8 +1,8 @@
 build: off
 
-branches:
-  only:
-    - master
+# branches:
+#   only:
+#     - master
 
 environment:
   matrix:
