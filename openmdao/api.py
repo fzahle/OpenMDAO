@@ -1,5 +1,7 @@
 """Key OpenMDAO classes can be imported from here."""
 
+import os
+
 # Core
 from openmdao.core.problem import Problem
 from openmdao.core.group import Group
@@ -42,7 +44,8 @@ from openmdao.components.vector_magnitude_comp import VectorMagnitudeComp
 from openmdao.solvers.linear.linear_block_gs import LinearBlockGS
 from openmdao.solvers.linear.linear_block_jac import LinearBlockJac
 from openmdao.solvers.linear.direct import DirectSolver
-from openmdao.solvers.linear.petsc_ksp import PETScKrylov, PetscKSP
+if not 'OPENMDAO_NO_PETSC' in os.environ:
+    from openmdao.solvers.linear.petsc_ksp import PETScKrylov, PetscKSP
 from openmdao.solvers.linear.linear_runonce import LinearRunOnce
 from openmdao.solvers.linear.scipy_iter_solver import ScipyKrylov, ScipyIterativeSolver
 from openmdao.solvers.linear.user_defined import LinearUserDefined
@@ -66,10 +69,13 @@ from openmdao.utils.find_cite import print_citations
 
 # Vectors
 from openmdao.vectors.default_vector import DefaultVector
-try:
-    from openmdao.vectors.petsc_vector import PETScVector
-except ImportError:
+if 'OPENMDAO_NO_PETSC' in os.environ:
     PETScVector = None
+else:
+    try:
+        from openmdao.vectors.petsc_vector import PETScVector
+    except ImportError:
+        PETScVector = None
 
 # Developer Tools
 from openmdao.visualization.n2_viewer.n2_viewer import view_model, n2

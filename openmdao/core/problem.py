@@ -43,10 +43,13 @@ from openmdao.vectors.default_vector import DefaultVector
 from openmdao.utils.logger_utils import get_logger, TestLogger
 import openmdao.utils.coloring as coloring_mod
 
-try:
-    from openmdao.vectors.petsc_vector import PETScVector
-except ImportError:
+if 'OPENMDAO_NO_PETSC' in os.environ:
     PETScVector = None
+else:
+    try:
+        from openmdao.vectors.petsc_vector import PETScVector
+    except ImportError:
+        PETScVector = None
 
 from openmdao.utils.name_maps import rel_key2abs_key, rel_name2abs_name
 

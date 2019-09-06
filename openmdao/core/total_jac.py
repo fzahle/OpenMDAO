@@ -8,16 +8,20 @@ from copy import deepcopy
 import pprint
 from six import iteritems, itervalues
 from six.moves import zip
+import os
 import sys
 import time
 
 import numpy as np
 
-try:
-    from petsc4py import PETSc
-    from openmdao.vectors.petsc_vector import PETScVector
-except ImportError:
-    PETSc = None
+if 'OPENMDAO_NO_PETSC' in os.environ:
+    PETScVector = None
+else:
+    try:
+        from petsc4py import PETSc
+        from openmdao.vectors.petsc_vector import PETScVector
+    except ImportError:
+        PETSc = None
 
 from openmdao.vectors.vector import INT_DTYPE
 from openmdao.utils.general_utils import ContainsAll, simple_warning
