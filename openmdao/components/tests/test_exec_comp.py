@@ -18,6 +18,16 @@ from openmdao.components.exec_comp import _expr_dict
 from openmdao.utils.assert_utils import assert_near_equal, assert_check_partials, assert_warning
 
 _ufunc_test_data = {
+    'min': {
+        'str': 'f=min(x)',
+        'check_func': np.min,
+        'args': { 'f': {'value': np.zeros(6)},
+                  'x': {'value': np.random.random(6)}}},
+    'max': {
+        'str': 'f=max(x)',
+        'check_func': np.max,
+        'args': { 'f': {'value': np.zeros(6)},
+                  'x': {'value': np.random.random(6)}}},
     'abs': {
         'str': 'f=abs(x)',
         'check_func': np.abs,
